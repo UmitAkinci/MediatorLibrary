@@ -3,3 +3,13 @@
 ################################################################################
 
 /AdessoMeditor/MediatorLibrarySample/.vs
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.Api/bin/Debug/net6.0
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.Api/obj
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.Application/bin/Debug/net6.0
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.Application/obj
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.CQRS/bin/Debug/net6.0
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.Domain/bin/Debug/net6.0
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.Domain/obj
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.Repository/bin/Debug/net6.0
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.Repository/obj
+/AdessoMeditor/MediatorLibrarySample/MediatorLibrarySample.CQRS/obj
