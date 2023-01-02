@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace MediatorLibrarySample.CQRS.Processor
 {
 
-    public class AdessoRequestPreProcessor<TRequest, TResponse> : IAdessoPipelineBehavior<TRequest, TResponse>
+    internal class AdessoRequestPreProcessorBehavior<TRequest, TResponse> : IAdessoPipelineBehavior<TRequest, TResponse>
     where TRequest : IAdessoRequest<TResponse>
     {
         private readonly IEnumerable<IAdessoRequestPreProcessor<TRequest>> _preProcessors;
 
-        public AdessoRequestPreProcessor(IEnumerable<IAdessoRequestPreProcessor<TRequest>> preProcessors)
+        public AdessoRequestPreProcessorBehavior(IEnumerable<IAdessoRequestPreProcessor<TRequest>> preProcessors)
             => _preProcessors = preProcessors;
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)

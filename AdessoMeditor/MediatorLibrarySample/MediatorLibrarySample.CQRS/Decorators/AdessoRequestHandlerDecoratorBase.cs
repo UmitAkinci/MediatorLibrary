@@ -10,7 +10,6 @@ namespace MediatorLibrarySample.CQRS.Decorators
     public abstract class AdessoRequestHandlerDecoratorBase<TRequest, TResponse> : IAdessoRequestHandler<TRequest, TResponse>
         where TRequest : IAdessoRequest<TResponse>
     {
-
         public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
     }
 }

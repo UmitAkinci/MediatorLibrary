@@ -20,7 +20,12 @@ builder.Services.AddTransient<IMoneyTransferRepository, MoneyTransferRepository>
 
 builder.Services.AddAdessoMeditor(AppDomain.CurrentDomain.Load("MediatorLibrarySample.Application"));
 
-builder.Services.AddScoped(typeof(IAdessoRequestPreProcessor<>), typeof(CreateMoneyTransferCommandPreProcessor<>));
+
+
+builder.Services.AddScoped(typeof(IAdessoRequestPreProcessor<>), typeof(MyTestPreProcessor<>));
+builder.Services.AddScoped(typeof(IAdessoRequestPostProcessor<,>), typeof(MyTestPostProcessor<,>));
+
+
 
 var app = builder.Build();
 

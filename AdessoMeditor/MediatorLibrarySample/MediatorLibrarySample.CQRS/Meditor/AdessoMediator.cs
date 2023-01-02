@@ -1,31 +1,21 @@
-﻿using System.Reflection;
-using MediatorLibrarySample.CQRS.Commands;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Concurrent;
 
 namespace MediatorLibrarySample.CQRS.Meditor
 {
     internal class AdessoMediator : IAdessoMediator
     {
         private readonly IServiceProvider _serviceProvider;
+        private static readonly ConcurrentDictionary<Type, dynamic> _requestHandlers = new();
 
         public AdessoMediator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<TResponse> Send<TResponse>(IAdessoRequest<TResponse> request, CancellationToken cancellationToken = default)
+        public Task<TResponse> Send<TResponse>(IAdessoRequest<TResponse> request, CancellationToken cancellationToken = default)
         {
-            //Type handlerType = typeof(IAdessoRequestHandler<,>)
-            //    .MakeGenericType(request.GetType(), typeof(TResponse));
-
-            //dynamic handler = _serviceProvider.GetRequiredService(handlerType);
-            //if (handler is null)
-            //{
-            //    throw new ArgumentNullException("Handler creation error!!");
-            //}
-            //return await handler.Handle((dynamic)request, cancellationToken);
-
-
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
@@ -33,12 +23,11 @@ namespace MediatorLibrarySample.CQRS.Meditor
 
             var requestType = request.GetType();
 
-            dynamic handler = (Activator.CreateInstance(typeof(AdessoRequestHandlerWrapper<,>).MakeGenericType(requestType, typeof(TResponse)))
-                                                 ?? throw new InvalidOperationException($"Could not create wrapper type for {requestType}"));
+            var handler = _requestHandlers.GetOrAdd(requestType, (Activator.CreateInstance(typeof(AdessoRequestHandlerWrapper<,>).MakeGenericType(requestType, typeof(TResponse)))
+                                                 ?? throw new InvalidOperationException($"Could not create wrapper type for {requestType}")));
 
+            
             return handler.Handle(request, _serviceProvider, cancellationToken);
         }
     }
-
-
 }

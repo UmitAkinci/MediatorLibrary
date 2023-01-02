@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MediatorLibrarySample.Application.MoneyTransfer
 {
-    public class CreateMoneyTransferCommandPreProcessor<TRequest> : IAdessoRequestPreProcessor<TRequest> where TRequest : notnull
+    public class MyTestPreProcessor<TRequest> : IAdessoRequestPreProcessor<TRequest> where TRequest : notnull
     {
         public Task Process(TRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }

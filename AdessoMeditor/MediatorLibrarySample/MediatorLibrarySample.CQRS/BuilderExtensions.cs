@@ -33,8 +33,6 @@ namespace MediatorLibrarySample.CQRS
                 }
             }
 
-
-
             //services.Decorate(typeof(IAdessoRequestHandler<,>), typeof(AdessoCommandHandlerDecorator<,>));
             //services.Decorate(typeof(IAdessoRequestHandler<,>), typeof(AdessoQueryHandlerDecorator<,>));
 
@@ -43,7 +41,10 @@ namespace MediatorLibrarySample.CQRS
         private static void AddRequiredServices(IServiceCollection services)
         {
             services.TryAdd(new ServiceDescriptor(typeof(IAdessoMediator), typeof(AdessoMediator), ServiceLifetime.Transient));
-            services.AddScoped(typeof(IAdessoPipelineBehavior<,>), typeof(AdessoRequestPreProcessor<,>));
+
+            services.AddScoped(typeof(IAdessoPipelineBehavior<,>), typeof(AdessoRequestPreProcessorBehavior<,>));
+            services.AddScoped(typeof(IAdessoPipelineBehavior<,>), typeof(AdessoRequestPostProcessorBehavior<,>));
+
         }
     }
 }

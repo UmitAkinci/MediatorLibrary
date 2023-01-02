@@ -20,11 +20,14 @@ namespace MediatorLibrarySample.CQRS
         public Task<TResponse> Handle(IAdessoRequest<TResponse> request, IServiceProvider serviceProvider,
     CancellationToken cancellationToken)
         {
-            dynamic handler = serviceProvider.GetRequiredService(typeof(IAdessoRequestHandler<TRequest, TResponse>));
-
-            Task<TResponse> Handler() => handler.Handle((TRequest)request, cancellationToken);
-
-            return ((IEnumerable<dynamic>)serviceProvider.GetServices(typeof(IAdessoPipelineBehavior<TRequest, TResponse>))).Aggregate((RequestHandlerDelegate<TResponse>)Handler, (next, pipeline) => () => pipeline.Handle((TRequest)request, next, cancellationToken))();
+            Task<TResponse> Handler() => serviceProvider.GetRequiredService<IAdessoRequestHandler<TRequest, TResponse>>().Handle((TRequest)request, cancellationToken);
+            var a = serviceProvider
+                .GetServices<IAdessoPipelineBehavior<TRequest, TResponse>>();
+            return serviceProvider
+                .GetServices<IAdessoPipelineBehavior<TRequest, TResponse>>()
+                .Reverse()
+                .Aggregate((RequestHandlerDelegate<TResponse>)Handler, (next, pipeline) => () => pipeline.Handle((TRequest)request, next, cancellationToken))();
         }
     }
+
 }
